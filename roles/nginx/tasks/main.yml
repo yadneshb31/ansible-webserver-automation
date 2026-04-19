@@ -1,0 +1,21 @@
+---
+- name: Install Nginx
+  yum:
+    name: "{{ nginx_package }}"
+    state: present
+
+- name: Start Nginx
+  service:
+    name: "{{ nginx_service }}"
+    state: started
+
+- name: Enable Nginx on Boot
+  service:
+    name: "{{ nginx_service }}"
+    enabled: yes
+
+- name: Deploy index.html
+  copy:
+    src: index.html
+    dest: "{{ web_root }}"
+  notify: Restart Nginx
